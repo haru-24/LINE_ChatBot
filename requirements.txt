@@ -13,4 +13,3 @@ requests
 urllib3
 Werkzeug
 python-dotenv
-os
