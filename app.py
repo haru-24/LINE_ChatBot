@@ -25,6 +25,10 @@ app = Flask(__name__)
 
 @app.route("/callback", methods=["POST"])
 def callback():
+    """LINEで送信されているかトークンは正しいか確認（署名の確認）
+    成功 ハンドラー関数
+    失敗 400エラー
+    """
     signature = request.headers["X-Line-Signature"]
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
@@ -40,9 +44,16 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token, TextSendMessage(text=bot_talk(event.message.text))
-    )
+    userMessage = event.message.text
+    botMessage = ""
+    if userMessage == "こんにちは" or "おはよう":
+        botMessage = "おっす!!"
+    elif userMessage == "おやすみ":
+        botMessage = "おやすみなさいっす!"
+    else:
+        botMessage = bot_talk(userMessage)
+
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=botMessage))
 
 
 def bot_talk(message):
