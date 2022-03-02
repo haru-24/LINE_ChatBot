@@ -46,7 +46,7 @@ def callback():
 def handle_message(event):
     userMessage = event.message.text
     botMessage = ""
-    if userMessage == "こんにちは" or "おはよう":
+    if userMessage == "こんにちは":
         botMessage = "おっす!!"
     elif userMessage == "おやすみ":
         botMessage = "おやすみなさいっす!"
